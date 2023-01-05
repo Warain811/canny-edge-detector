@@ -43,6 +43,17 @@ file_column = [     # left column of the program
     ],
 
     [sg.Text("Total Number of Objects Detected from Images in Folder: ", size = (60, 1), key='-OBJECTS-', text_color = "yellow", justification='center'), ], 
+   
+    [sg.Text("Canny Threshold: ", size=(40, 1), text_color = "yellow", justification = 'center', p=(0,35)),],
+
+    [
+     sg.Text("Min Value: ", size=(60, 1), text_color = "yellow",justification = 'center', p=(0,2)),],[
+     sg.Slider(range=(0, 255),default_value=0, orientation='h', size=(30, 20),  key="-canny_scalex-",),
+    ],
+    [
+     sg.Text("Max Value: ", size=(60, 1), text_color = "yellow",justification = 'center', p=(0,2)),],[
+     sg.Slider(range=(0, 255),default_value=70, orientation='h', size=(30, 20), key="-canny_scaley-"),
+    ],                                        
 ]
 
 image_viewer_column = [     # right column of the program
@@ -71,7 +82,7 @@ transformation_column = [
 
 layout = [      # this defines the window's contents
     [
-        sg.Column(file_column, vertical_alignment='center', p = ((0, 3), (60, 75))),    # column element
+        sg.Column(file_column, vertical_alignment='center',element_justification = "center", p = ((0, 3), (60, 75))),    # column element
         sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
         sg.Column(image_viewer_column, element_justification = "center", expand_y= True),   # column element
         sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
@@ -102,7 +113,9 @@ def main():
                 window['-FOLDER-'].update(file_path)  # this updates the input element-
 
         elif event == "Load Images\n and Detect Objects":         # this  updates the file history whenever an image has been loaded,-
-            
+            canny_scalex = (int(values['-canny_scalex-']))
+            canny_scaley = (int(values['-canny_scaley-']))
+     
             folder = values['-FOLDER-']      # and views the image
 
             if folder == "":
@@ -138,12 +151,15 @@ def main():
         
                 for j in range(len(filePathsInList)):
                     imageViewerFunctions.convert_to_PNG(filePathsInList[j]) 
-                    cannyEdgeDetection.detectEdges('tmp.png')
+                    cannyEdgeDetection.detectEdges('tmp.png',canny_scalex,canny_scaley)
                     cannyEdgeDetection.getTotalNumberOfObjects()
                     
                 window["-OBJECTS-"].update("Total Number of Objects Detected from Images in Folder: "+ str(cannyEdgeDetection.totalNumberOfObjects))
                 
         elif event == "-FILE LIST-":    # call image_open() whenever the the user clicks on the list box element
+            canny_scalex = (int(values['-canny_scalex-']))
+            canny_scaley = (int(values['-canny_scaley-']))
+            
             try:
                 imageViewerFunctions.clear_info()   
 
@@ -153,7 +169,7 @@ def main():
     
                 imageViewerFunctions.convert_to_PNG(fileListPath) 
                 imageViewerFunctions.image_open('tmp.png') 
-                cannyEdgeDetection.detectEdges('tmp.png')  
+                cannyEdgeDetection.detectEdges('tmp.png',canny_scalex,canny_scaley)  
 
                 cv2.imwrite("transformation.png", cannyEdgeDetection.blurredImage)
                 imageViewerFunctions.transformation(variableForUI.first_transformation, variableForUI.blur_image, "")  # display detected objects in image 
