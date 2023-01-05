@@ -102,6 +102,7 @@ class ImageViewer():
         self.window[variableForUI.blur_image].update('')  
         self.window[variableForUI.edges_image].update('')  
         self.window[variableForUI.dilated_edges_image].update('')  
+        self.window[variableForUI.contours_image].update('')  
         self.window["-num_of_objects-"].update('')  
 
     # function to clear all info when user opens a new folder

@@ -168,7 +168,7 @@ def main():
                 cv2.drawContours(result, cannyEdgeDetection.contours, -1, (0,255,0), thickness=-1)
                 cv2.imwrite("transformation.png", result)
 
-                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.contours_image, "Dilated Edges, \n and External Contours Filled:")  # display detected objects in image 
+                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.contours_image, "Dilated Edges, \n and External Contours Filled (left to right):")  # display detected objects in image 
                 window["-num_of_objects-"].update("Total number of objects detected in selected image: " + str(cannyEdgeDetection.numberOfObjects))                
 
             except:
