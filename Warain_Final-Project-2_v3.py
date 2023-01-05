@@ -4,24 +4,20 @@
 from re import L
 from tkinter import Y
 import cv2      # import modules
-import io  
 import os
 from os.path import exists
-import PySimpleGUI as sg
-import struct 
-import matplotlib.pyplot as plt   
-from PIL import Image, ImageTk  #Image for open, ImageTk for display
+import PySimpleGUI as sg   
 import numpy as np
-import math
-import random
-import sys
-import imutils
 
 from open_image import ImageViewer
 from canny_edge_detector import edgeDetection
+from name_convention import namingConvention
 
 sg.theme('DarkGrey8')   # theme of the program
 font = ("Arial", 12)     # font style of the program
+
+variableForUI = namingConvention()
+variableForUI.variables()
 
 file_column = [     # left column of the program
     [
@@ -60,12 +56,15 @@ image_viewer_column = [     # right column of the program
 ]
 
 transformation_column = [
-    [sg.Text(size=(60, 1), key="-blur-", text_color = "yellow", justification = 'center')],    
-    [sg.Image(key="-blurred_image-", size = (320, 240), pad = ((0, 0), (0, 25)) ),],
-    [sg.Text(size=(60, 2), key="-transformation-", text_color = "yellow", justification = 'center')],    
+    [sg.Text(size=(60, 2), key = variableForUI.first_transformation, text_color = "yellow", justification = 'center')],    
+    [   
+        sg.Image(key = variableForUI.blur_image, size = (320, 240), pad = ((0, 10), (0, 25)) ),
+        sg.Image(key = variableForUI.edges_image, size = (320, 240), pad = ((0, 0), (0, 25))),
+    ],  
+    [sg.Text(size=(60, 2), key = variableForUI.second_transformation, text_color = "yellow", justification = 'center')],    
     [
-        sg.Image(key="-first_transformed_image-", size = (320, 240)),
-        sg.Image(key="-second_transformed_image-", size = (320, 240)),
+        sg.Image(key = variableForUI.dilated_edges_image, size = (320, 240)),
+        sg.Image(key = variableForUI.contours_image, size = (320, 240)),
     ],  
     [sg.Text(size=(60, 1), key="-num_of_objects-", text_color = "yellow", justification = 'center')],                                               
 ]
@@ -157,16 +156,19 @@ def main():
                 cannyEdgeDetection.detectEdges('tmp.png')  
 
                 cv2.imwrite("transformation.png", cannyEdgeDetection.blurredImage)
-                imageViewerFunctions.transformation("-blur-", "-blurred_image-", "Gaussian Blurred, Grayscaled Image:")  # display detected objects in image 
-
+                imageViewerFunctions.transformation(variableForUI.first_transformation, variableForUI.blur_image, "")  # display detected objects in image 
+                
                 cv2.imwrite("transformation.png", cannyEdgeDetection.edges)
-                imageViewerFunctions.transformation("-transformation-", "-first_transformed_image-", "")  # display detected objects in image 
+                imageViewerFunctions.transformation(variableForUI.first_transformation, variableForUI.edges_image, "Gaussian Blurred, Grayscaled Image, \n and Edges Detected through Canny Algorithm (left to right):")  # display detected objects in image 
+
+                cv2.imwrite("transformation.png", cannyEdgeDetection.dilatedEdges)
+                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.dilated_edges_image, "")  # display detected objects in image 
 
                 result = np.zeros_like(cannyEdgeDetection.image)
                 cv2.drawContours(result, cannyEdgeDetection.contours, -1, (0,255,0), thickness=-1)
                 cv2.imwrite("transformation.png", result)
 
-                imageViewerFunctions.transformation("-transformation-", "-second_transformed_image-", "Edges Detected through Canny Algorithm (left)\n and External Contours Filled (right):")  # display detected objects in image 
+                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.contours_image, "Dilated Edges, \n and External Contours Filled:")  # display detected objects in image 
                 window["-num_of_objects-"].update("Total number of objects detected in selected image: " + str(cannyEdgeDetection.numberOfObjects))                
 
             except:

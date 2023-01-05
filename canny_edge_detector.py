@@ -4,6 +4,7 @@ class edgeDetection():
 
     def __init__(self, ):
         self.edges = []
+        self.dilatedEdges = []
         self.contours = []
         self.image = []
         self.totalNumberOfObjects = 0
@@ -15,13 +16,14 @@ class edgeDetection():
 
         imgray = cv2.GaussianBlur(imgray, (5, 5), 0)
         detectedEdges = cv2.Canny(imgray, 0, 70, L2gradient= True, apertureSize=3) # use canny edge detection algorithm to find the outlines of objects in images
-        detectedEdges = cv2.blur(detectedEdges, (3, 3), 0)
+        dilatedEdges = cv2.blur(detectedEdges, (3, 3), 0)
 
-        contours, hierarchy = cv2.findContours(detectedEdges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(dilatedEdges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
         self.image = im
         self.blurredImage = imgray
         self.edges = detectedEdges
+        self.dilatedEdges = dilatedEdges
         self.contours = contours
         self.numberOfObjects = len(contours)
     

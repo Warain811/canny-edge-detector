@@ -1,17 +1,16 @@
 from re import L
 from tkinter import Y
-import cv2      # import modules
 import io  
 import os
 from os.path import exists
-import PySimpleGUI as sg
 import struct 
-import matplotlib.pyplot as plt   
 from PIL import Image, ImageTk  #Image for open, ImageTk for display
 import numpy as np
-import math
-import random
-import sys
+
+from name_convention import namingConvention
+
+variableForUI = namingConvention()
+variableForUI.variables()
 
 class ImageViewer():
 
@@ -98,12 +97,12 @@ class ImageViewer():
     
     # function to clear info
     def clear_info(self):           # clear and hide widgets whenever another image has been viewed
-        self.window["-transformation-"].update('')  
-        self.window["-blur-"].update('')
-        self.window["-blurred_image-"].update('')
-        self.window["-first_transformed_image-"].update('')
-        self.window["-second_transformed_image-"].update('')
-        self.window["-num_of_objects-"].update('')
+        self.window[variableForUI.first_transformation].update('')  
+        self.window[variableForUI.second_transformation].update('')  
+        self.window[variableForUI.blur_image].update('')  
+        self.window[variableForUI.edges_image].update('')  
+        self.window[variableForUI.dilated_edges_image].update('')  
+        self.window["-num_of_objects-"].update('')  
 
     # function to clear all info when user opens a new folder
     def reset(self):           # clear and hide widgets whenever another image has been viewed
