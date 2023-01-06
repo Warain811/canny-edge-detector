@@ -1,28 +1,29 @@
-from re import L
-from tkinter import Y
-import io  
+# open_image.py 
+# This file contains the code related to displaying and opening the image
+
+import io   # import module
 import os
 from os.path import exists
 import struct 
-from PIL import Image, ImageTk  #Image for open, ImageTk for display
+from PIL import Image, ImageTk  
 import numpy as np
 
 from name_convention import namingConvention
 
-variableForUI = namingConvention()
+variableForUI = namingConvention()     
 variableForUI.variables()
 
-class ImageViewer():
+class ImageViewer():    
 
     def __init__(self, window):
         self.window = window
         self.current_image = ""
         self.file_list = []
 
-    def convert_to_PNG(self, current_image):
+    def convert_to_PNG(self, current_image):    # this function converts the image to png file
         file_name = os.path.basename(current_image)  # get the image's filename only
         
-        if(file_name.split(".")[1] == "png"):    # check if image is in PNG format [1] [2]
+        if(file_name.split(".")[1] == "png"):    # check if image is in PNG format 
             png = Image.open(current_image).convert('RGBA')  # convert the image into RGBA
             png.load()               # required for png.split()
             background = Image.new("RGB", png.size, (255, 255, 255)) # if the image has a transparent background, turn the background white
@@ -34,7 +35,7 @@ class ImageViewer():
             RGB_image = image.convert("RGB")        # convert the image into RGB
             RGB_image.save("tmp.png")           # save the converted into a png file
         
-        else:    # get pcx image data [15]
+        else:    # get pcx image data 
             with open(current_image, 'rb') as f:     # read the image as binary
                 byte_data = []
                 while (byte := f.read(1)):      # read all the bytes in the image
@@ -92,7 +93,6 @@ class ImageViewer():
                     pixels[x, y] = (imageColorValues[i][0], imageColorValues[i][1], imageColorValues[i][2]) # set the  color of the pixel in the appropriate pixel map
  
                 imageData.save("tmp.png")
-
             f.close()
     
     # function to clear info
@@ -106,32 +106,25 @@ class ImageViewer():
         self.window["-num_of_objects-"].update('')  
 
     # function to clear all info when user opens a new folder
-    def reset(self):           # clear and hide widgets whenever another image has been viewed
+    def reset(self):           
         self.clear_info()  
         self.window["-FILE LIST-"].update('') 
 
-    # function to display the image
+    # function to display the transformations being done to the image
     def transformation(self, transform_name, transform_image, transformation):
         image = Image.open("transformation.png")     # open the transformed image 
         image.thumbnail((256, 256))     # resize the image
         self.window[transform_name].update(transformation)   
         self.window[transform_image].update(data = ImageTk.PhotoImage(image))    # display the image's respective transformation  
-
-    # function to clear the colour palette image
-    def clear_color_pallete(self, current_image):     # clear color palette if current image is not in pcx format
-        file_name = os.path.basename(current_image)  
-        if(file_name.split(".")[1] != "pcx"):
-            self.window["-colorpalette-"].update('')  
     
     # function to delete the image files 
-    def delete_file(self, file_name):     # delete the generated images
+    def delete_file(self, file_name):     
         file_exists = exists(file_name)
         if file_exists:  
             os.remove(file_name)
     
-    # function to open an image and the header information
-    def image_open(self, file):   # function for opening an image
-
+    # function to view an image 
+    def image_open(self, file):   
         image = Image.open(file)    # open the file
         image.thumbnail((256, 256))     # resize the image
         bio = io.BytesIO()  # convert image into a byte stream

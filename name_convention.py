@@ -1,3 +1,5 @@
+# name_convention.py 
+# This file contains the code related to variable names for the user interface
 
 class namingConvention:
 
