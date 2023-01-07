@@ -69,7 +69,6 @@ class ImageViewer():
                 runlength = 0
                 runvalue = 0
 
-                full_image = np.zeros([256, 256, 3])
                 while (position < int(len(byte_data) - 768) ):  # this range represents where the image data is located ( 128 bytes < position < (byte_data - 768))
                     Byte = byte_data[position]   
                     position = position + 1

@@ -19,7 +19,7 @@ font = ("Arial", 12)     # font style of the program
 variableForUI = namingConvention()
 variableForUI.variables()
 
-file_column = [     # left column of the program
+folder_column = [     # left column of the program
     [
         sg.Text("Folder Path:", text_color = "yellow"),       
         sg.Input(size=(26, 1), disabled = True, text_color = "black", key="-FOLDER-"),    # input element with key 'FOLDER'
@@ -80,7 +80,7 @@ transformation_column = [   # right column of the program
 
 layout = [      # the layout defines the window's contents
     [
-        sg.Column(file_column, vertical_alignment='center', element_justification = 'center', p = ((0, 3), (60, 75))),    # column element
+        sg.Column(folder_column, vertical_alignment='center', element_justification = 'center', p = ((0, 3), (60, 75))),    # column element
         sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
         sg.Column(image_viewer_column, element_justification = "center", expand_y= True),   # column element
         sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
