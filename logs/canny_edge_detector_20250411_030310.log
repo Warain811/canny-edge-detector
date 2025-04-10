@@ -1,0 +1,25 @@
+2025-04-11 03:03:18,424 - CannyEdgeDetector - INFO - Resetting controller state
+2025-04-11 03:03:18,426 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\bugs.jpg
+2025-04-11 03:03:18,484 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:18,492 - CannyEdgeDetector - INFO - Detected 11 objects in image
+2025-04-11 03:03:18,520 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-11 03:03:18,612 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:18,617 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-11 03:03:18,634 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\dogs.png
+2025-04-11 03:03:18,797 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:18,803 - CannyEdgeDetector - INFO - Detected 81 objects in image
+2025-04-11 03:03:18,818 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\geckos.png
+2025-04-11 03:03:18,911 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:18,920 - CannyEdgeDetector - INFO - Detected 7 objects in image
+2025-04-11 03:03:18,935 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\knife.png
+2025-04-11 03:03:19,007 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:19,015 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-11 03:03:22,409 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-11 03:03:22,485 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:22,489 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-11 03:03:23,410 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\dogs.png
+2025-04-11 03:03:23,503 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:23,509 - CannyEdgeDetector - INFO - Detected 81 objects in image
+2025-04-11 03:03:24,698 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\geckos.png
+2025-04-11 03:03:24,792 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-11 03:03:24,800 - CannyEdgeDetector - INFO - Detected 7 objects in image
