@@ -264,9 +264,7 @@ def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_va
     
     # Process edges
     process_edges(edge_detector, TEMP_IMAGE_FILE, min_val, max_val)
-    
-    # # Display transformations
-    # display_transformations(image_viewer, edge_detector, ui_vars)
+
 
 def main():
     """Main application entry point."""
@@ -345,10 +343,6 @@ def main():
                 process_image(image_viewer, edge_detector, file_path, min_val, max_val, ui_vars)
                 image_viewer.clear_image_in_image_viewer()
                 edge_detector.update_total_objects()
-
-            # window["-num_of_objects-"].update(
-            #   f"Total number of objects detected in selected image: {edge_detector.current_objects}"
-            # )
 
             window["-OBJECTS-"].update(
               f"Total Number of Objects Detected from Images in Folder: {edge_detector.total_objects}"

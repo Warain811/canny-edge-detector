@@ -5,7 +5,7 @@ import os
 from os.path import exists
 from PIL import Image, ImageTk, UnidentifiedImageError
 
-from .config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE
+from .config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE, EMPTY_IMAGE_PATH
 from .name_convention import UIVariables
 from .pcx_handler import PCXHandler
 from .logger import logger
@@ -110,7 +110,7 @@ class ImageViewer:
             logger.debug("Clearing main image viewer")
 
             # Load and scale the image proportionally
-            empty_image = Image.open("assets/empty.png")
+            empty_image = Image.open(EMPTY_IMAGE_PATH)
             empty_image.thumbnail((320, 240))  # Maintains aspect ratio
 
             # Create a new image with padding (a fixed 320x240 blank canvas)
