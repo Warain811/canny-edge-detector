@@ -78,7 +78,7 @@ TEMP_DIRECTORY = validate_directory(os.path.join(CURRENT_DIRECTORY, 'temp'))
 # UI Configuration
 UI_THEME = 'DarkGrey8'
 UI_FONT = ("Arial", 12)
-WINDOW_SIZE = validate_window_size((1500, 710))
+WINDOW_SIZE = validate_window_size((1750, 800))  # Increased to 1920x1080
 
 # Image Processing Configuration
 SUPPORTED_FORMATS = ('.gif', '.jpg', '.png', '.pcx', '.bmp')
@@ -91,3 +91,5 @@ DEFAULT_MAX_THRESHOLD = 70
 # Temporary Files
 TEMP_IMAGE_FILE = os.path.join(TEMP_DIRECTORY, 'tmp.png')
 TRANSFORM_IMAGE_FILE = os.path.join(TEMP_DIRECTORY, 'transformation.png')
+
+EMPTY_IMAGE_PATH = os.path.join(ASSETS_DIRECTORY, 'empty.png')

@@ -103,6 +103,34 @@ class ImageViewer:
             "-num_of_objects-"
         ]:
             self.window[key].update('')
+    
+    def clear_image_in_image_viewer(self):
+        """Clear the image displayed in the viewer."""
+        try:
+            logger.debug("Clearing main image viewer")
+
+            # Load and scale the image proportionally
+            empty_image = Image.open("assets/empty.png")
+            empty_image.thumbnail((320, 240))  # Maintains aspect ratio
+
+            # Create a new image with padding (a fixed 320x240 blank canvas)
+            padded_image = Image.new("RGBA", (320, 240), (0, 0, 0, 0))  # Transparent background
+
+            # Calculate top-left corner for centering
+            x = (320 - empty_image.width) // 2
+            y = (240 - empty_image.height) // 2
+
+            # Paste the thumbnail into the center of the canvas
+            padded_image.paste(empty_image, (x, y))
+
+            # Convert to bytes and update
+            bio = io.BytesIO()
+            padded_image.save(bio, "PNG")
+            self.window["-IMAGE-"].update(data=bio.getvalue())
+
+        except Exception as e:
+            logger.error(f"Error clearing image viewer: {str(e)}")
+            raise
 
     def reset(self):
         """Reset the viewer state."""
@@ -121,7 +149,7 @@ class ImageViewer:
         try:
             logger.debug(f"Showing transformation: {transform_name}")
             image = Image.open(TRANSFORM_IMAGE_FILE)
-            image.thumbnail((256, 256))
+            image.thumbnail((320, 240))  # Updated to match the size in create_image_viewer_column
             self.window[transform_name].update(description)
             self.window[transform_image].update(data=ImageTk.PhotoImage(image))
         except Exception as e:
@@ -148,7 +176,7 @@ class ImageViewer:
         try:
             logger.debug(f"Displaying image: {file_path}")
             image = Image.open(file_path)
-            image.thumbnail((256, 256))
+            image.thumbnail((320, 240))  # Updated to match the size in create_image_viewer_column
             bio = io.BytesIO()
             image.save(bio, "PNG")
             self.window["-IMAGE-"].update(data=bio.getvalue())

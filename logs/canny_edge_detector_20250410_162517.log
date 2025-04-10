@@ -1,0 +1,24 @@
+2025-04-10 16:25:18,219 - CannyEdgeDetector - INFO - ImageViewer initialized
+2025-04-10 16:25:18,219 - CannyEdgeDetector - INFO - EdgeDetector initialized
+2025-04-10 16:25:24,503 - CannyEdgeDetector - INFO - Resetting viewer state
+2025-04-10 16:25:24,504 - CannyEdgeDetector - INFO - Total object count reset
+2025-04-10 16:25:24,505 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\bugs.jpg
+2025-04-10 16:25:24,562 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 16:25:24,569 - CannyEdgeDetector - INFO - Detected 11 objects in image
+2025-04-10 16:25:24,572 - CannyEdgeDetector - INFO - Total object count updated to: 11
+2025-04-10 16:25:24,572 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-10 16:25:24,649 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 16:25:24,656 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 16:25:24,659 - CannyEdgeDetector - INFO - Total object count updated to: 12
+2025-04-10 16:25:24,659 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\dogs.png
+2025-04-10 16:25:24,815 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 16:25:24,820 - CannyEdgeDetector - INFO - Detected 81 objects in image
+2025-04-10 16:25:24,823 - CannyEdgeDetector - INFO - Total object count updated to: 93
+2025-04-10 16:25:24,823 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\geckos.png
+2025-04-10 16:25:24,914 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 16:25:24,923 - CannyEdgeDetector - INFO - Detected 7 objects in image
+2025-04-10 16:25:24,926 - CannyEdgeDetector - INFO - Total object count updated to: 100
+2025-04-10 16:25:24,926 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\knife.png
+2025-04-10 16:25:24,995 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 16:25:25,002 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 16:25:25,005 - CannyEdgeDetector - INFO - Total object count updated to: 101

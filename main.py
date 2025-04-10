@@ -343,6 +343,7 @@ def main():
             for file_name in file_names:
                 file_path = os.path.join(folder, file_name)
                 process_image(image_viewer, edge_detector, file_path, min_val, max_val, ui_vars)
+                image_viewer.clear_image_in_image_viewer()
                 edge_detector.update_total_objects()
 
             # window["-num_of_objects-"].update(
