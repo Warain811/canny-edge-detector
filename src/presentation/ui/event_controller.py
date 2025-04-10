@@ -9,9 +9,9 @@ from PIL import Image, ImageTk
 
 from ...services.image_processing_service import ImageProcessingService
 from ...services.image_conversion_service import ImageConversionService
+from ...services.file_management_service import FileManagementService
 from ...name_convention import UIVariables
 from ...config import (
-    SUPPORTED_FORMATS,
     UI_FONT,
     TEMP_IMAGE_FILE,
     TRANSFORM_IMAGE_FILE,
@@ -28,6 +28,7 @@ class EventController:
         self.ui_vars = UIVariables()
         self.image_processor = ImageProcessingService()
         self.image_converter = ImageConversionService()
+        self.file_manager = FileManagementService()
         self.folder = None
         self.total_objects = 0
 
@@ -90,15 +91,7 @@ class EventController:
             return
 
         self._reset_state()
-
-        try:
-            file_names = [
-                f for f in os.listdir(self.folder)
-                if os.path.isfile(os.path.join(self.folder, f))
-                and f.lower().endswith(SUPPORTED_FORMATS)
-            ]
-        except:
-            file_names = []
+        file_names = self.file_manager.list_image_files(self.folder)
 
         if not file_names:
             sg.Popup(
@@ -248,11 +241,4 @@ class EventController:
     def _cleanup_temp_files(self):
         """Remove temporary image files."""
         logger.debug("Cleaning up temporary files")
-        temp_files = [TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE]
-        for file_name in temp_files:
-            if os.path.exists(file_name):
-                try:
-                    os.remove(file_name)
-                    logger.debug(f"Removed temporary file: {file_name}")
-                except Exception as e:
-                    logger.warning(f"Failed to remove temporary file {file_name}: {str(e)}")
+        self.file_manager.cleanup_files([TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE])
