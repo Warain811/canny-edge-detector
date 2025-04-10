@@ -3,7 +3,7 @@
 # main.py
 # This file contains the code for the UI of the program
 
-import cv2      # import modules and classes
+import cv2
 import os
 from os.path import exists
 import PySimpleGUI as sg   
@@ -11,7 +11,7 @@ import numpy as np
 
 from open_image import ImageViewer  
 from canny_edge_detector import edgeDetection
-from name_convention import namingConvention
+from name_convention import UIVariables
 
 # Get the current directory of the file
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -19,42 +19,98 @@ CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 sg.theme('DarkGrey8')   # theme of the program
 font = ("Arial", 12)     # font style of the program
 
-variableForUI = namingConvention()
-variableForUI.variables()
+ui_variables = UIVariables()
+# ui_variables.variables()
 
 folder_column = [     # left column of the program
     [
-        sg.Text("Folder Path:", text_color = "yellow"),       
-        sg.Input(size=(26, 1), disabled = True, text_color = "black", key="-FOLDER-"),    # input element with key 'FOLDER'
-        sg.Button('Browse'),        # 'browse' button element
-        sg.Button("Load Images\n and Detect Objects", size = (18,2) ),    # 'load image' button element 
+        sg.Text(
+            "Folder Path:",
+            text_color="yellow"
+        ),       
+        sg.Input(
+            size=(26, 1),
+            disabled=True,
+            text_color="black",
+            key="-FOLDER-"
+        ),    
+        sg.Button('Browse'),        
+        sg.Button(
+            "Load Images\n and Detect Objects",
+            size=(18, 2)
+        ),    
     ],
-
     [
-        sg.Text("Images Found From Folder:", size = (60, 1), text_color = "yellow", justification='center')   
+        sg.Text(
+            "Images Found From Folder:",
+            size=(60, 1),
+            text_color="yellow",
+            justification='center'
+        )   
     ],
-
     [
-        sg.Listbox      # listbox element that shows the list of images inside the folder
-        (
-            values=[], 
-            enable_events=True, 
-            size=(55, 7), 
-            key="-FILE LIST-", 
+        sg.Listbox(     
+            values=[],
+            enable_events=True,
+            size=(55, 7),
+            key="-FILE LIST-",
             horizontal_scroll=True
         ),
     ],
-
-    [sg.Text("Total Number of Objects Detected from Images in Folder: ", size = (60, 1), key='-OBJECTS-', text_color = "yellow", justification='center'), ], 
-    
-    [sg.Text("Hysteresis Threshold Values: ", size=(40, 1), text_color = "white", justification = 'center', p=((0, 0), (30, 0)) ),],
-
-    [sg.Text("Min Value: ", size=(60, 1), text_color = "yellow", justification = 'center', p=((0, 0), (0, 5)) ) ],
-    [sg.Slider(range = (0, 255), default_value = 0, orientation='h', size=(30, 20),  key="-cannyMinValue-") ],
-
-    [sg.Text("Max Value: ", size=(60, 1), text_color = "yellow", justification = 'center', p=((0, 0), (0, 5)) )],
-    [sg.Slider(range = (0, 255), default_value = 70, orientation='h', size=(30, 20), key="-cannyMaxValue-")]
-
+    [
+        sg.Text(
+            "Total Number of Objects Detected from Images in Folder: ",
+            size=(60, 1),
+            key='-OBJECTS-',
+            text_color="yellow",
+            justification='center'
+        ),
+    ], 
+    [
+        sg.Text(
+            "Hysteresis Threshold Values: ",
+            size=(40, 1),
+            text_color="white",
+            justification='center',
+            p=((0, 0), (30, 0))
+        ),
+    ],
+    [
+        sg.Text(
+            "Min Value: ",
+            size=(60, 1),
+            text_color="yellow",
+            justification='center',
+            p=((0, 0), (0, 5))
+        )
+    ],
+    [
+        sg.Slider(
+            range=(0, 255),
+            default_value=0,
+            orientation='h',
+            size=(30, 20),
+            key="-cannyMinValue-"
+        )
+    ],
+    [
+        sg.Text(
+            "Max Value: ",
+            size=(60, 1),
+            text_color="yellow",
+            justification='center',
+            p=((0, 0), (0, 5))
+        )
+    ],
+    [
+        sg.Slider(
+            range=(0, 255),
+            default_value=70,
+            orientation='h',
+            size=(30, 20),
+            key="-cannyMaxValue-"
+        )
+    ]
 ]
 
 image_viewer_column = [     # center column of the program
@@ -62,36 +118,95 @@ image_viewer_column = [     # center column of the program
 [sg.Text("View of the image:", text_color = "yellow", justification = 'center')],     
 
 [
-    sg.Image(key="-IMAGE-", size = (320, 240), filename=os.path.join(CURRENT_DIRECTORY, 'assets', 'empty.png')),   # image element                 
+    sg.Image(
+        key="-IMAGE-", 
+        size=(320, 240), 
+        filename=os.path.join(CURRENT_DIRECTORY, 'assets', 'empty.png')
+    ),   # image element                 
 ], 
 
 ]
 
 transformation_column = [   # right column of the program
-    [sg.Text(size=(60, 2), key = variableForUI.first_transformation, text_color = "yellow", justification = 'center')],    
-    [   
-        sg.Image(key = variableForUI.blur_image, size = (320, 240), pad = ((0, 10), (0, 25)) ),
-        sg.Image(key = variableForUI.edges_image, size = (320, 240), pad = ((0, 0), (0, 25)) ),
-    ],  
-    [sg.Text(size=(60, 2), key = variableForUI.second_transformation, text_color = "yellow", justification = 'center')],    
     [
-        sg.Image(key = variableForUI.dilated_edges_image, size = (320, 240) ),
-        sg.Image(key = variableForUI.contours_image, size = (320, 240) ),
+        sg.Text(
+            size=(60, 2),
+            key=ui_variables.first_transformation,
+            text_color="yellow",
+            justification='center'
+        )
+    ],    
+    [   
+        sg.Image(
+            key=ui_variables.blur_image,
+            size=(320, 240),
+            pad=((0, 10), (0, 25))
+        ),
+        sg.Image(
+            key=ui_variables.edges_image,
+            size=(320, 240),
+            pad=((0, 0), (0, 25))
+        ),
     ],  
-    [sg.Text(size=(60, 1), key="-num_of_objects-", text_color = "yellow", justification = 'center')],                                               
+    [
+        sg.Text(
+            size=(60, 2),
+            key=ui_variables.second_transformation,
+            text_color="yellow",
+            justification='center'
+        )
+    ],    
+    [
+        sg.Image(
+            key=ui_variables.dilated_edges_image,
+            size=(320, 240)
+        ),
+        sg.Image(
+            key=ui_variables.contours_image,
+            size=(320, 240)
+        ),
+    ],  
+    [
+        sg.Text(
+            size=(60, 1),
+            key="-num_of_objects-",
+            text_color="yellow",
+            justification='center'
+        )
+    ],                                               
 ]
 
 layout = [      # the layout defines the window's contents
     [
-        sg.Column(folder_column, vertical_alignment='center', element_justification = 'center', p = ((0, 3), (60, 75))),    # column element
-        sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
-        sg.Column(image_viewer_column, element_justification = "center", expand_y= True),   # column element
-        sg.VSeperator(),       # this is a vertical line that shows the separation of the columns
-        sg.Column(transformation_column, element_justification = "center", expand_y= True),   # column element
+        sg.Column(
+            folder_column,
+            vertical_alignment='center',
+            element_justification='center',
+            p=((0, 3), (60, 75))
+        ),    
+        sg.VSeperator(),      
+        sg.Column(
+            image_viewer_column,
+            element_justification="center",
+            expand_y=True
+        ),   
+        sg.VSeperator(),      
+        sg.Column(
+            transformation_column,
+            element_justification="center",
+            expand_y=True
+        ),   
     ]
 ]
 
-window = sg.Window("Object Detection through Canny Algorithm", layout, font = font, resizable = True, finalize = True, size = (1500, 710))   # this showcases the layout of the program in a window
+window = sg.Window(
+    "Object Detection through Canny Algorithm",
+    layout,
+    font=font,
+    resizable=True,
+    finalize=True,
+    size=(1500, 710)
+)
 
 def main():    
 
@@ -176,19 +291,19 @@ def main():
                 cannyEdgeDetection.detectEdges('tmp.png', cannyMinValue, cannyMaxValue) # run the canny algorithm  
 
                 cv2.imwrite("transformation.png", cannyEdgeDetection.blurredImage)      
-                imageViewerFunctions.transformation(variableForUI.first_transformation, variableForUI.blur_image, "")  # display the blurred grayscale image
+                imageViewerFunctions.transformation(ui_variables.first_transformation, ui_variables.blur_image, "")  # display the blurred grayscale image
                 
                 cv2.imwrite("transformation.png", cannyEdgeDetection.edges)  
-                imageViewerFunctions.transformation(variableForUI.first_transformation, variableForUI.edges_image, "Gaussian Blurred, Grayscaled Image, \n and Edges Detected through Canny Algorithm (left to right):")   # display the edges in the image
+                imageViewerFunctions.transformation(ui_variables.first_transformation, ui_variables.edges_image, "Gaussian Blurred, Grayscaled Image, \n and Edges Detected through Canny Algorithm (left to right):")   # display the edges in the image
 
                 cv2.imwrite("transformation.png", cannyEdgeDetection.dilatedEdges)  
-                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.dilated_edges_image, "")  # display dilated edges of the image
+                imageViewerFunctions.transformation(ui_variables.second_transformation, ui_variables.dilated_edges_image, "")  # display dilated edges of the image
 
                 result = np.zeros_like(cannyEdgeDetection.image)
                 cv2.drawContours(result, cannyEdgeDetection.contours, -1, (0,255,0), thickness=-1)  # fill the external contours of the image
                 cv2.imwrite("transformation.png", result)
 
-                imageViewerFunctions.transformation(variableForUI.second_transformation, variableForUI.contours_image, "Dilated Edges, \n and External Contours Filled (left to right):")  # display filled contours in image 
+                imageViewerFunctions.transformation(ui_variables.second_transformation, ui_variables.contours_image, "Dilated Edges, \n and External Contours Filled (left to right):")  # display filled contours in image 
                 window["-num_of_objects-"].update("Total number of objects detected in selected image: " + str(cannyEdgeDetection.numberOfObjects))    # display number of objects detected in the selected image            
 
             except:
