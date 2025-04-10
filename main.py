@@ -13,6 +13,9 @@ from open_image import ImageViewer
 from canny_edge_detector import edgeDetection
 from name_convention import namingConvention
 
+# Get the current directory of the file
+CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+
 sg.theme('DarkGrey8')   # theme of the program
 font = ("Arial", 12)     # font style of the program
 
@@ -59,7 +62,7 @@ image_viewer_column = [     # center column of the program
 [sg.Text("View of the image:", text_color = "yellow", justification = 'center')],     
 
 [
-    sg.Image(key="-IMAGE-", size = (320, 240), filename="empty.png"),   # image element                 
+    sg.Image(key="-IMAGE-", size = (320, 240), filename=os.path.join(CURRENT_DIRECTORY, 'assets', 'empty.png')),   # image element                 
 ], 
 
 ]
