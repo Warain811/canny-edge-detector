@@ -95,33 +95,70 @@ class ImageConversionService:
 
     @staticmethod
     def resize_image(image_path: str, output_path: str, max_width: int, max_height: int):
-        """Resize an image while maintaining aspect ratio.
-        
+        """
+        Resize an image to fit within a specified width and height, while maintaining its
+        aspect ratio. If the image's aspect ratio doesn't match the target size, it will
+        be centered on a transparent canvas of the specified size.
+
         Args:
-            image_path: Path to the source image
-            output_path: Path where the resized image should be saved
-            max_width: Maximum width of the output image
-            max_height: Maximum height of the output image
+            image_path (str): Path to the source image to resize.
+            output_path (str): Path where the resized image will be saved.
+            max_width (int): Maximum allowed width for the output image.
+            max_height (int): Maximum allowed height for the output image.
+
+        Returns:
+            None: Saves the resized image to the output path.
         """
         try:
-            # Load original image
-            image = Image.open(image_path)
+            # 1. Load the original image
+            original_image = Image.open(image_path)
 
-            # Resize while maintaining aspect ratio
-            image.thumbnail((max_width, max_height), Image.LANCZOS)
-            resized_width, resized_height = image.size
+            # 2. Calculate the new size for the image, maintaining the aspect ratio
+            resized_image = ImageConversionService._resize_image_to_max_dimensions(original_image, max_width, max_height)
 
-            # Create padded canvas
-            padded_image = Image.new("RGBA", (max_width, max_height), (0, 0, 0, 0))
+            # 3. Create a canvas to center the resized image
+            centered_image = ImageConversionService._create_centered_canvas(resized_image, max_width, max_height)
 
-            # Center the image
-            offset_x = (max_width - resized_width) // 2
-            offset_y = (max_height - resized_height) // 2
-            padded_image.paste(image, (offset_x, offset_y))
+            # 4. Save the final image
+            centered_image.save(output_path, "PNG")
 
-            # Save to file
-            padded_image.save(output_path, "PNG")
+            logger.info(f"✅ Resized image saved at {output_path}")
 
         except Exception as e:
-            logger.error(f"Error resizing image {image_path}: {str(e)}")
+            logger.error(f"Error resizing image from {image_path}: {str(e)}")
             raise
+    
+    @staticmethod
+    def _resize_image_to_max_dimensions(image: Image.Image, max_width: int, max_height: int) -> Image.Image:
+        """
+        Resize an image while maintaining the aspect ratio, using LANCZOS for high-quality downscaling.
+        
+        Args:
+            image (Image.Image): The image to resize.
+            max_width (int): The maximum width for the resized image.
+            max_height (int): The maximum height for the resized image.
+
+        Returns:
+            Image.Image: The resized image with maintained aspect ratio.
+        """
+        image.thumbnail((max_width, max_height), Image.LANCZOS)
+        return image
+
+    @staticmethod
+    def _create_centered_canvas(image: Image.Image, canvas_width: int, canvas_height: int) -> Image.Image:
+        """
+        Create a canvas of the specified size, then center the image on that canvas.
+        
+        Args:
+            image (Image.Image): The image to center.
+            canvas_width (int): The width of the canvas.
+            canvas_height (int): The height of the canvas.
+
+        Returns:
+            Image.Image: The image centered on the canvas.
+        """
+        canvas = Image.new("RGBA", (canvas_width, canvas_height), (0, 0, 0, 0))
+        offset_x = (canvas_width - image.width) // 2
+        offset_y = (canvas_height - image.height) // 2
+        canvas.paste(image, (offset_x, offset_y))
+        return canvas
