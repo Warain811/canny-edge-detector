@@ -210,13 +210,14 @@ def create_window():
         size=WINDOW_SIZE
     )
 
-def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_vars):
-    """Process a single image through the edge detection pipeline."""
-    image_viewer.convert_to_png(filepath)
-    image_viewer.show_image(TEMP_IMAGE_FILE)
-    edge_detector.detect_edges(TEMP_IMAGE_FILE, min_val, max_val)
+def process_edges(edge_detector, filepath, min_val, max_val):
+    """Process image edges using the Canny edge detection pipeline."""
+    edge_detector.detect_edges(filepath, min_val, max_val)
+    return edge_detector
 
-    # Show transformations
+def display_transformations(image_viewer, edge_detector, ui_vars):
+    """Display all image transformations in the UI."""
+    # Show blurred image
     cv2.imwrite(TRANSFORM_IMAGE_FILE, edge_detector.blurred_image)
     image_viewer.show_transformation(
         ui_vars.first_transformation,
@@ -224,6 +225,7 @@ def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_va
         ""
     )
 
+    # Show edge detection
     cv2.imwrite(TRANSFORM_IMAGE_FILE, edge_detector.edges)
     image_viewer.show_transformation(
         ui_vars.first_transformation,
@@ -231,6 +233,7 @@ def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_va
         "Gaussian Blurred, Grayscaled Image, \n and Edges Detected through Canny Algorithm (left to right):"
     )
 
+    # Show dilated edges
     cv2.imwrite(TRANSFORM_IMAGE_FILE, edge_detector.dilated_edges)
     image_viewer.show_transformation(
         ui_vars.second_transformation,
@@ -238,6 +241,7 @@ def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_va
         ""
     )
 
+    # Show contours
     result = np.zeros_like(edge_detector.image)
     cv2.drawContours(
         result,
@@ -247,12 +251,22 @@ def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_va
         thickness=-1
     )
     cv2.imwrite(TRANSFORM_IMAGE_FILE, result)
-
     image_viewer.show_transformation(
         ui_vars.second_transformation,
         ui_vars.contours_image,
         "Dilated Edges, \n and External Contours Filled (left to right):"
     )
+
+def process_image(image_viewer, edge_detector, filepath, min_val, max_val, ui_vars):
+    """Process a single image through the edge detection pipeline."""
+    # Convert and display original image
+    image_viewer.convert_to_png(filepath)
+    
+    # Process edges
+    process_edges(edge_detector, TEMP_IMAGE_FILE, min_val, max_val)
+    
+    # # Display transformations
+    # display_transformations(image_viewer, edge_detector, ui_vars)
 
 def main():
     """Main application entry point."""
@@ -331,9 +345,9 @@ def main():
                 process_image(image_viewer, edge_detector, file_path, min_val, max_val, ui_vars)
                 edge_detector.update_total_objects()
 
-            window["-num_of_objects-"].update(
-              f"Total number of objects detected in selected image: {edge_detector.current_objects}"
-            )
+            # window["-num_of_objects-"].update(
+            #   f"Total number of objects detected in selected image: {edge_detector.current_objects}"
+            # )
 
             window["-OBJECTS-"].update(
               f"Total Number of Objects Detected from Images in Folder: {edge_detector.total_objects}"
@@ -351,6 +365,8 @@ def main():
                     int(values['-cannyMaxValue-']),
                     ui_vars
                 )
+                image_viewer.show_image(TEMP_IMAGE_FILE)
+                display_transformations(image_viewer, edge_detector, ui_vars)
                 window["-num_of_objects-"].update(
                     f"Total number of objects detected in selected image: {edge_detector.current_objects}"
                 )
