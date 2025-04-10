@@ -20,7 +20,6 @@ sg.theme('DarkGrey8')   # theme of the program
 font = ("Arial", 12)     # font style of the program
 
 ui_variables = UIVariables()
-# ui_variables.variables()
 
 folder_column = [     # left column of the program
     [
@@ -243,7 +242,7 @@ def main():
                 if(cannyMinValue > cannyMaxValue):   # if the min value is greater than the max value, then the algorithm won't run
                     sg.Popup("Min value cannot exceed max value.", font = font, button_type = 5, title = "Error!")
 
-                else:  # if  the min value is lesser or equal to the max value, then the canny algorithm will run [1]
+                else: 
                     imageViewerFunctions.reset() 
                     cannyEdgeDetection.resetTotalNumberOfObjects()
 
