@@ -1,0 +1,39 @@
+2025-04-10 18:35:52,994 - CannyEdgeDetector - INFO - ImageViewer initialized
+2025-04-10 18:35:52,995 - CannyEdgeDetector - INFO - EdgeDetector initialized
+2025-04-10 18:35:57,321 - CannyEdgeDetector - INFO - Resetting viewer state
+2025-04-10 18:35:57,322 - CannyEdgeDetector - INFO - Total object count reset
+2025-04-10 18:35:57,323 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\bugs.jpg
+2025-04-10 18:35:57,381 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:57,388 - CannyEdgeDetector - INFO - Detected 11 objects in image
+2025-04-10 18:35:57,394 - CannyEdgeDetector - INFO - Total object count updated to: 11
+2025-04-10 18:35:57,395 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-10 18:35:57,471 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:57,477 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 18:35:57,486 - CannyEdgeDetector - INFO - Total object count updated to: 12
+2025-04-10 18:35:57,487 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\dogs.png
+2025-04-10 18:35:57,652 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:57,657 - CannyEdgeDetector - INFO - Detected 81 objects in image
+2025-04-10 18:35:57,665 - CannyEdgeDetector - INFO - Total object count updated to: 93
+2025-04-10 18:35:57,665 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\geckos.png
+2025-04-10 18:35:57,758 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:57,766 - CannyEdgeDetector - INFO - Detected 7 objects in image
+2025-04-10 18:35:57,773 - CannyEdgeDetector - INFO - Total object count updated to: 100
+2025-04-10 18:35:57,773 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\knife.png
+2025-04-10 18:35:57,842 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:57,849 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 18:35:57,855 - CannyEdgeDetector - INFO - Total object count updated to: 101
+2025-04-10 18:35:58,935 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-10 18:35:59,011 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:59,016 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 18:35:59,616 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\dogs.png
+2025-04-10 18:35:59,724 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:35:59,728 - CannyEdgeDetector - INFO - Detected 81 objects in image
+2025-04-10 18:36:00,392 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\geckos.png
+2025-04-10 18:36:00,483 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:36:00,492 - CannyEdgeDetector - INFO - Detected 7 objects in image
+2025-04-10 18:36:00,872 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\knife.png
+2025-04-10 18:36:00,956 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:36:00,963 - CannyEdgeDetector - INFO - Detected 1 objects in image
+2025-04-10 18:36:02,352 - CannyEdgeDetector - INFO - Converting image to PNG: D:/Github Repositories/canny-edge-detector/images\camomiles.jpg
+2025-04-10 18:36:02,428 - CannyEdgeDetector - INFO - Processing image: D:\Github Repositories\canny-edge-detector\temp\tmp.png
+2025-04-10 18:36:02,433 - CannyEdgeDetector - INFO - Detected 1 objects in image
