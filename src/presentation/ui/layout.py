@@ -3,11 +3,13 @@
 import os
 import PySimpleGUI as sg
 
-from ...config import (
-    CURRENT_DIRECTORY,
+from .ui_config import (
     UI_THEME,
     UI_FONT,
     WINDOW_SIZE,
+    EMPTY_IMAGE_PATH
+)
+from ...services.processing_config import (
     DEFAULT_MIN_THRESHOLD,
     DEFAULT_MAX_THRESHOLD
 )
@@ -103,7 +105,7 @@ def create_image_viewer_column():
             sg.Image(
                 key="-IMAGE-",
                 size=(320, 240),
-                filename=os.path.join(CURRENT_DIRECTORY, 'assets', 'empty.png')
+                filename=EMPTY_IMAGE_PATH
             ),
         ],
     ]

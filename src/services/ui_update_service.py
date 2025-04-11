@@ -3,9 +3,8 @@
 import io
 from PIL import Image, ImageTk
 from ..name_convention import UIVariables
-from ..services.image_conversion_service import ImageConversionService
+from .results_formatter_service import ResultsFormatterService
 from ..logger import logger
-from ..config import TRANSFORM_IMAGE_FILE
 
 class UIUpdateService:
     """Service for handling UI update operations."""
@@ -18,8 +17,8 @@ class UIUpdateService:
         """
         self.window = window
         self.ui_vars = UIVariables()
-        self.image_converter = ImageConversionService()
         self._photo_images = {}  # Store PhotoImage references
+        self._formatter = ResultsFormatterService()
 
     def update_file_list(self, files):
         """Update the file list in the UI.
@@ -36,14 +35,9 @@ class UIUpdateService:
             count: Number of objects to display
             is_total: Whether this is the total count across all images
         """
-        if is_total:
-            self.window["-OBJECTS-"].update(
-                f"Total Number of Objects Detected from Images in Folder: {count}"
-            )
-        else:
-            self.window["-num_of_objects-"].update(
-                f"Total number of objects detected in selected image: {count}"
-            )
+        message = self._formatter.format_object_count(count, is_total)
+        key = "-OBJECTS-" if is_total else "-num_of_objects-"
+        self.window[key].update(message)
 
     def show_image(self, file_path: str, is_main: bool = True):
         """Display an image in the UI.
@@ -64,19 +58,29 @@ class UIUpdateService:
                 self.window["-IMAGE-"].update(filename=file_path)
                 
         except Exception as e:
-            logger.error(f"Error displaying image {file_path}: {str(e)}")
+            logger.error(self._formatter.format_error_message(e))
             raise
 
-    def show_transformation(self, transform_name: str, transform_image: str, description: str):
-        """Display a transformation step in the UI."""
+    def show_transformation(self, transform_name: str, transform_image: str, transformation_type: str):
+        """Display a transformation step in the UI.
+        
+        Args:
+            transform_name: Key for the transformation description
+            transform_image: Key for the transformation image
+            transformation_type: Type of transformation being displayed
+        """
         try:
             logger.debug(f"Showing transformation: {transform_name}")
-            self.image_converter.resize_image(TRANSFORM_IMAGE_FILE, TRANSFORM_IMAGE_FILE, 320, 240)
-            image = Image.open(TRANSFORM_IMAGE_FILE)
+            image = Image.open(transform_image)
+            photo = ImageTk.PhotoImage(image)
+            self._photo_images[transform_image] = photo  # Keep reference
+            
+            description = self._formatter.format_transformation_description(transformation_type)
             self.window[transform_name].update(description)
-            self.window[transform_image].update(data=ImageTk.PhotoImage(image))
+            self.window[transform_image].update(data=photo)
+            
         except Exception as e:
-            logger.error(f"Error showing transformation {transform_name}: {str(e)}")
+            logger.error(self._formatter.format_error_message(e))
             raise
 
     def clear_transformations(self):

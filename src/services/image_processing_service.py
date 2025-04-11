@@ -1,4 +1,4 @@
-"""Service for handling all image processing operations."""
+"""Service for handling image processing operations."""
 
 import cv2
 import numpy as np
@@ -7,6 +7,8 @@ from ..config import (
     GAUSSIAN_SIGMA,
     DILATION_KERNEL_SIZE
 )
+from ..models.image_model import ImageModel
+from ..models.image_transformation import ImageTransformation
 from ..logger import logger
 
 class ImageProcessingService:
@@ -14,71 +16,80 @@ class ImageProcessingService:
 
     def __init__(self):
         """Initialize the image processing service."""
-        self._image = None
-        self._blurred_image = None
-        self._edges = None
-        self._dilated_edges = None
-        self._contours = None
-        self._current_objects = 0
+        self._current_transformation = None
+        self._total_objects = 0
 
     @property
-    def image(self):
-        """Get the current image."""
-        return self._image
-
-    @property
-    def blurred_image(self):
-        """Get the blurred image."""
-        return self._blurred_image
-
-    @property
-    def edges(self):
-        """Get the detected edges."""
-        return self._edges
-
-    @property
-    def dilated_edges(self):
-        """Get the dilated edges."""
-        return self._dilated_edges
-
-    @property
-    def contours(self):
-        """Get the detected contours."""
-        return self._contours
-
-    @property
-    def current_objects(self):
+    def current_objects(self) -> int:
         """Get the number of objects in current image."""
-        return self._current_objects
+        return self._current_transformation.result.object_count if self._current_transformation else 0
+
+    @property
+    def total_objects(self) -> int:
+        """Get total number of objects detected."""
+        return self._total_objects
+
+    @property
+    def image(self) -> np.ndarray:
+        """Get the current image data."""
+        return self._current_transformation.result.data if self._current_transformation else None
+
+    @property
+    def blurred_image(self) -> np.ndarray:
+        """Get the blurred image data."""
+        return self._current_transformation.result.blurred if self._current_transformation else None
+
+    @property
+    def edges(self) -> np.ndarray:
+        """Get the detected edges."""
+        return self._current_transformation.result.edges if self._current_transformation else None
+
+    @property
+    def dilated_edges(self) -> np.ndarray:
+        """Get the dilated edges."""
+        return self._current_transformation.result.dilated_edges if self._current_transformation else None
+
+    @property
+    def contours(self) -> list:
+        """Get the detected contours."""
+        return self._current_transformation.result.contours if self._current_transformation else None
 
     def process_image(self, filepath: str, min_threshold: int, max_threshold: int):
-        """Process an image through the edge detection pipeline.
-        
-        Args:
-            filepath: Path to the image file
-            min_threshold: Lower threshold for Canny edge detection
-            max_threshold: Upper threshold for Canny edge detection
-            
-        Raises:
-            IOError: If the image cannot be loaded
-            ValueError: If thresholds are invalid
-        """
-        if not self._validate_thresholds(min_threshold, max_threshold):
-            raise ValueError("Invalid threshold values")
-
+        """Process an image through the edge detection pipeline."""
         try:
-            self._image = cv2.imread(filepath)
-            if self._image is None:
+            # Load and create initial image model
+            image_data = cv2.imread(filepath)
+            if image_data is None:
                 raise IOError(f"Failed to load image: {filepath}")
-                
-            logger.info(f"Processing image: {filepath}")
-            logger.debug(f"Image shape: {self._image.shape}")
             
+            height, width = image_data.shape[:2]
+            original_image = ImageModel(
+                path=filepath,
+                data=image_data,
+                width=width,
+                height=height,
+                format=filepath.split('.')[-1].lower()
+            )
+            
+            # Create transformation model
+            self._current_transformation = ImageTransformation(
+                original_image=original_image,
+                min_threshold=min_threshold,
+                max_threshold=max_threshold,
+                gaussian_kernel_size=GAUSSIAN_KERNEL_SIZE,
+                gaussian_sigma=GAUSSIAN_SIGMA,
+                dilation_kernel_size=DILATION_KERNEL_SIZE
+            )
+            
+            if not self._current_transformation.is_valid():
+                raise ValueError("Invalid threshold values")
+
+            # Process the image
             self._preprocess_image()
-            self._detect_edges(min_threshold, max_threshold)
+            self._detect_edges()
             self._detect_contours()
             
-            logger.info(f"Detected {self._current_objects} objects in image")
+            logger.info(f"Detected {self.current_objects} objects in image")
             
         except Exception as e:
             logger.error(f"Error processing image {filepath}: {str(e)}")
@@ -87,31 +98,49 @@ class ImageProcessingService:
     def _preprocess_image(self):
         """Convert image to grayscale and apply Gaussian blur."""
         try:
-            gray_image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
-            self._blurred_image = cv2.GaussianBlur(
+            # Create result model if not exists
+            if not self._current_transformation.result:
+                self._current_transformation.result = ImageModel(
+                    path=self._current_transformation.original_image.path,
+                    data=self._current_transformation.original_image.data.copy(),
+                    width=self._current_transformation.original_image.width,
+                    height=self._current_transformation.original_image.height,
+                    format=self._current_transformation.original_image.format
+                )
+            
+            # Apply transformations
+            gray_image = cv2.cvtColor(self._current_transformation.result.data, cv2.COLOR_BGR2GRAY)
+            self._current_transformation.result.grayscale = gray_image
+            
+            self._current_transformation.result.blurred = cv2.GaussianBlur(
                 gray_image, 
-                GAUSSIAN_KERNEL_SIZE, 
-                GAUSSIAN_SIGMA
+                self._current_transformation.gaussian_kernel_size, 
+                self._current_transformation.gaussian_sigma
             )
             logger.debug("Image preprocessing completed")
         except Exception as e:
             logger.error(f"Error in preprocessing: {str(e)}")
             raise
 
-    def _detect_edges(self, min_val: int, max_val: int):
+    def _detect_edges(self):
         """Apply Canny edge detection algorithm."""
         try:
-            logger.debug(f"Applying Canny with thresholds: {min_val}, {max_val}")
-            self._edges = cv2.Canny(
-                self._blurred_image,
-                min_val,
-                max_val,
+            logger.debug(
+                f"Applying Canny with thresholds: {self._current_transformation.min_threshold}, "
+                f"{self._current_transformation.max_threshold}"
+            )
+            
+            self._current_transformation.result.edges = cv2.Canny(
+                self._current_transformation.result.blurred,
+                self._current_transformation.min_threshold,
+                self._current_transformation.max_threshold,
                 L2gradient=True,
                 apertureSize=3
             )
-            self._dilated_edges = cv2.blur(
-                self._edges, 
-                DILATION_KERNEL_SIZE, 
+            
+            self._current_transformation.result.dilated_edges = cv2.blur(
+                self._current_transformation.result.edges, 
+                self._current_transformation.dilation_kernel_size, 
                 0
             )
             logger.debug("Edge detection completed")
@@ -123,32 +152,24 @@ class ImageProcessingService:
         """Find external contours in the image."""
         try:
             contours, _ = cv2.findContours(
-                self._dilated_edges.copy(),
+                self._current_transformation.result.dilated_edges.copy(),
                 cv2.RETR_EXTERNAL,
                 cv2.CHAIN_APPROX_SIMPLE
             )
-            self._contours = contours
-            self._current_objects = len(contours)
-            logger.debug(f"Found {self._current_objects} contours")
+            self._current_transformation.result.contours = contours
+            self._current_transformation.result.object_count = len(contours)
+            logger.debug(f"Found {self.current_objects} contours")
         except Exception as e:
             logger.error(f"Error finding contours: {str(e)}")
             raise
 
-    @staticmethod
-    def _validate_thresholds(min_threshold: int, max_threshold: int) -> bool:
-        """Validate Canny edge detection thresholds.
-        
-        Args:
-            min_threshold: Lower threshold for the hysteresis procedure
-            max_threshold: Upper threshold for the hysteresis procedure
-            
-        Returns:
-            True if thresholds are valid, False otherwise
-        """
-        if not isinstance(min_threshold, (int, float)) or not isinstance(max_threshold, (int, float)):
-            return False
-        if min_threshold < 0 or max_threshold < 0:
-            return False
-        if min_threshold >= max_threshold:
-            return False
-        return True
+    def update_total_objects(self):
+        """Update the total count of objects across all processed images."""
+        if self._current_transformation and self._current_transformation.result:
+            self._total_objects += self._current_transformation.result.object_count
+            logger.info(f"Total object count updated to: {self._total_objects}")
+
+    def reset_total_objects(self):
+        """Reset the total object count when loading a new folder."""
+        self._total_objects = 0
+        logger.info("Total object count reset")

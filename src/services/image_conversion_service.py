@@ -2,7 +2,7 @@
 
 import os
 from PIL import Image, UnidentifiedImageError
-from ..pcx_handler import PCXHandler
+from .pcx_service import PCXService
 from ..logger import logger
 
 class ImageConversionService:
@@ -71,7 +71,7 @@ class ImageConversionService:
     def _convert_pcx(image_path: str, output_path: str):
         """Convert PCX format to PNG."""
         try:
-            image_data = PCXHandler.convert_pcx(image_path)
+            image_data = PCXService.convert_pcx(image_path)
             image_data.save(output_path)
         except Exception as e:
             logger.error(f"Error converting PCX {image_path}: {str(e)}")

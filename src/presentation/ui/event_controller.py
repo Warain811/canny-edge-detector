@@ -11,13 +11,9 @@ from ...services.image_processing_service import ImageProcessingService
 from ...services.image_conversion_service import ImageConversionService
 from ...services.file_management_service import FileManagementService
 from ...services.validation_service import ValidationService
+from ...services.processing_config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE
 from ...name_convention import UIVariables
-from ...config import (
-    UI_FONT,
-    TEMP_IMAGE_FILE,
-    TRANSFORM_IMAGE_FILE,
-    EMPTY_IMAGE_PATH
-)
+from .ui_config import UI_FONT, EMPTY_IMAGE_PATH
 from ...logger import logger
 
 class EventController:
