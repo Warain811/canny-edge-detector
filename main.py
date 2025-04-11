@@ -1,7 +1,7 @@
 """Main module for the Canny Edge Detection application."""
 
 import os
-from src.config import ASSETS_DIRECTORY
+from src.base_config import ASSETS_DIRECTORY
 from src.presentation.ui.layout import create_window
 from src.presentation.ui.event_controller import EventController
 

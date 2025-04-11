@@ -3,29 +3,28 @@
 import logging
 import os
 from datetime import datetime
-from .config import CURRENT_DIRECTORY
+from .base_config import LOGS_DIRECTORY
 
 def setup_logger():
     """Configure and return the application logger."""
     # Create logs directory if it doesn't exist
-    logs_dir = os.path.join(CURRENT_DIRECTORY, 'logs')
-    if not os.path.exists(logs_dir):
-        os.makedirs(logs_dir)
+    if not os.path.exists(LOGS_DIRECTORY):
+        os.makedirs(LOGS_DIRECTORY)
 
     # Configure logging
     log_file = os.path.join(
-        logs_dir,
+        LOGS_DIRECTORY,
         f'canny_edge_detector_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
     )
     
     logger = logging.getLogger('CannyEdgeDetector')
     logger.setLevel(logging.INFO)
 
-    # File handler
-    file_handler = logging.FileHandler(log_file)
+    # File handler with UTF-8 encoding
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setLevel(logging.INFO)
     
-    # Console handler
+    # Console handler with ASCII-only output
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.WARNING)
 

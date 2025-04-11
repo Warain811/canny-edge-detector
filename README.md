@@ -54,4 +54,4 @@ python main.py
 ## Sample Images
 Sample images are provided in the `images/` directory for testing.
 
-For more information and documentation: https://drive.google.com/drive/folders/1YwIAIernaA3zzBfydE9QRtJicTWenIpu?usp=share_link
+For more information and documentation: https://docs.google.com/document/d/1q5ZXYupFWGPXcGGxJmdD5IFbjJjkT3tOtuv9vRDkgZA/edit?usp=sharing
