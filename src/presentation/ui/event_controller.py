@@ -10,6 +10,7 @@ from PIL import Image, ImageTk
 from ...services.image_processing_service import ImageProcessingService
 from ...services.image_conversion_service import ImageConversionService
 from ...services.file_management_service import FileManagementService
+from ...services.validation_service import ValidationService
 from ...name_convention import UIVariables
 from ...config import (
     UI_FONT,
@@ -29,6 +30,7 @@ class EventController:
         self.image_processor = ImageProcessingService()
         self.image_converter = ImageConversionService()
         self.file_manager = FileManagementService()
+        self.validator = ValidationService()
         self.folder = None
         self.total_objects = 0
 
@@ -59,47 +61,26 @@ class EventController:
         if file_path:
             self.window['-FOLDER-'].update(file_path)
         else:
-            sg.Popup(
-                "Please choose a folder. Program will use previously loaded folder.",
-                font=UI_FONT,
-                button_type=5,
-                title="Error!"
+            self.validator.show_error(
+                "Please choose a folder. Program will use previously loaded folder."
             )
 
     def _handle_load_images(self, values):
         """Handle Load Images and Detect Objects button click."""
         self.folder = values['-FOLDER-']
-        if not self.folder:
-            sg.Popup(
-                "Please choose a nonempty folder. Program will use previously loaded folder.",
-                font=UI_FONT,
-                button_type=5,
-                title="Error!"
-            )
+        if not self.validator.validate_folder_selection(self.folder):
             return
 
         min_val = int(values['-cannyMinValue-'])
         max_val = int(values['-cannyMaxValue-'])
 
-        if min_val > max_val:
-            sg.Popup(
-                "Min value cannot exceed max value.",
-                font=UI_FONT,
-                button_type=5,
-                title="Error!"
-            )
+        if not self.validator.validate_threshold_values(min_val, max_val):
             return
 
         self._reset_state()
         file_names = self.file_manager.list_image_files(self.folder)
 
-        if not file_names:
-            sg.Popup(
-                "Chosen folder is empty. Please choose a different folder",
-                font=UI_FONT,
-                button_type=5,
-                title="Warning!"
-            )
+        if not self.validator.validate_image_files(len(file_names)):
             return
 
         self.window["-FILE LIST-"].update(file_names)
