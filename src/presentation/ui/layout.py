@@ -13,7 +13,7 @@ from ...services.processing_config import (
     DEFAULT_MIN_THRESHOLD,
     DEFAULT_MAX_THRESHOLD
 )
-from ...name_convention import UIVariables
+from .ui_variables import UIVariables
 
 def create_folder_column(ui_vars):
     """Create the left column containing folder selection and controls."""

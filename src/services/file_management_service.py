@@ -2,8 +2,8 @@
 
 import os
 from typing import List
-from ..config import SUPPORTED_FORMATS
-from ..logger import logger
+from .processing_config import SUPPORTED_FORMATS
+from ..utils.logger import logger
 
 class FileManagementService:
     """Service for handling file management operations."""

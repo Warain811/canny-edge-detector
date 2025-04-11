@@ -2,7 +2,7 @@
 
 import os
 from typing import Tuple
-from ..logger import logger
+from ..utils.logger import logger
 
 class ConfigurationError(Exception):
     """Exception raised for configuration validation errors."""

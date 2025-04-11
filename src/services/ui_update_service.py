@@ -2,9 +2,9 @@
 
 import io
 from PIL import Image, ImageTk
-from ..name_convention import UIVariables
+from ..presentation.ui.ui_variables import UIVariables
 from .results_formatter_service import ResultsFormatterService
-from ..logger import logger
+from ..utils.logger import logger
 
 class UIUpdateService:
     """Service for handling UI update operations."""

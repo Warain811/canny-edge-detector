@@ -2,14 +2,14 @@
 
 import cv2
 import numpy as np
-from ..config import (
+from .processing_config import (
     GAUSSIAN_KERNEL_SIZE,
     GAUSSIAN_SIGMA,
     DILATION_KERNEL_SIZE
 )
 from ..models.image_model import ImageModel
 from ..models.image_transformation import ImageTransformation
-from ..logger import logger
+from ..utils.logger import logger
 
 class ImageProcessingService:
     """Service for handling image processing operations."""

@@ -3,7 +3,7 @@
 import os
 from PIL import Image, UnidentifiedImageError
 from .pcx_service import PCXService
-from ..logger import logger
+from ..utils.logger import logger
 
 class ImageConversionService:
     """Service for handling image format conversion operations."""

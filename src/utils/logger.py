@@ -3,7 +3,7 @@
 import logging
 import os
 from datetime import datetime
-from .base_config import LOGS_DIRECTORY
+from ..config.base_config import LOGS_DIRECTORY
 
 def setup_logger():
     """Configure and return the application logger."""

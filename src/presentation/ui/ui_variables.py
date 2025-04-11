@@ -1,5 +1,4 @@
-# name_convention.py 
-# This file contains the code related to variable names for the user interface
+"""Module containing UI element key definitions."""
 
 class UIVariables:
     """Class containing UI element keys for the application."""

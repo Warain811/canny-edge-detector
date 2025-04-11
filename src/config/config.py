@@ -7,13 +7,13 @@ from .base_config import (
     IMAGES_DIRECTORY,
     TEMP_DIRECTORY
 )
-from .presentation.ui.ui_config import (
+from ..presentation.ui.ui_config import (
     UI_THEME,
     UI_FONT,
     WINDOW_SIZE,
     EMPTY_IMAGE_PATH
 )
-from .services.processing_config import (
+from ..services.processing_config import (
     GAUSSIAN_KERNEL_SIZE,
     GAUSSIAN_SIGMA,
     DILATION_KERNEL_SIZE,

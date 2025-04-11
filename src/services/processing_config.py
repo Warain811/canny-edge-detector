@@ -1,7 +1,7 @@
 """Configuration settings for image processing."""
 
 import os
-from ..base_config import TEMP_DIRECTORY
+from ..config.base_config import TEMP_DIRECTORY
 
 # Image Processing Parameters
 GAUSSIAN_KERNEL_SIZE = (5, 5)
