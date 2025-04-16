@@ -2,7 +2,7 @@
 
 import os
 from PIL import Image, UnidentifiedImageError
-from .pcx_service import PCXService
+from ..utils.pcx_service import PCXService
 from ..utils.logger import logger
 
 class ImageConversionService:
