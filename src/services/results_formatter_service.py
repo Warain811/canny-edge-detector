@@ -1,7 +1,6 @@
 """Service for formatting and standardizing UI result displays."""
 
 from ..models.image_model import ImageModel
-from ..models.image_transformation import ImageTransformation
 
 class ResultsFormatterService:
     """Service for formatting display results consistently."""

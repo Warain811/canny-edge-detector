@@ -7,7 +7,10 @@ from .image_model import ImageModel
 
 @dataclass
 class ImageTransformation:
-    """Represents a sequence of image transformations."""
+    """Represents an edge detection transformation configuration and its results.
+    
+    Encapsulates the input parameters for edge detection (thresholds, kernel sizes),
+    the original image, and the transformation results."""
 
     original_image: ImageModel
     min_threshold: int
