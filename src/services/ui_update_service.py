@@ -2,7 +2,7 @@
 
 import io
 from PIL import Image, ImageTk
-from ..presentation.ui.ui_variables import UIVariables
+from ..ui.ui_variables import UIVariables
 from .results_formatter_service import ResultsFormatterService
 
 class UIUpdateService:

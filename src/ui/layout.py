@@ -8,7 +8,7 @@ from .ui_config import (
     WINDOW_SIZE,
     EMPTY_IMAGE_PATH
 )
-from ...config.processing_config import (
+from src.config.processing_config import (
     DEFAULT_MIN_THRESHOLD,
     DEFAULT_MAX_THRESHOLD
 )

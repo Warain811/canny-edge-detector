@@ -9,7 +9,7 @@ from .base_config import (
     TEMP_IMAGE_FILE,
     TRANSFORM_IMAGE_FILE
 )
-from ..presentation.ui.ui_config import (
+from ..ui.ui_config import (
     UI_THEME,
     UI_FONT,
     WINDOW_SIZE,

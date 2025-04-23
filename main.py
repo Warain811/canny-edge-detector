@@ -2,8 +2,8 @@
 
 import os
 from src.services.configuration_service import ConfigurationService
-from src.presentation.ui.layout import create_window
-from src.presentation.ui.event_controller import EventController
+from src.ui.layout import create_window
+from src.ui.event_controller import EventController
 from src.config.base_config import ASSETS_DIRECTORY, TEMP_DIRECTORY
 
 def create_directory_structure():

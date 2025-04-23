@@ -1,7 +1,7 @@
 """UI-specific configuration settings."""
 
 import os
-from ...config.base_config import ASSETS_DIRECTORY
+from src.config.base_config import ASSETS_DIRECTORY
 
 # UI Theme and Style
 UI_THEME = 'DarkGrey8'

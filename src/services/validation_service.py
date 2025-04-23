@@ -1,7 +1,7 @@
 """Service for handling input validation and error messages."""
 
 import PySimpleGUI as sg
-from ..presentation.ui.ui_config import UI_FONT
+from ..ui.ui_config import UI_FONT
 
 class ValidationService:
     """Service for handling input validation and error messages."""

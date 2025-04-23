@@ -7,11 +7,11 @@ import numpy as np
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
 
-from ...services.image_processing_service import ImageProcessingService
-from ...services.image_conversion_service import ImageConversionService
-from ...services.file_management_service import FileManagementService
-from ...services.validation_service import ValidationService
-from ...config.base_config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE
+from src.services.image_processing_service import ImageProcessingService
+from src.services.image_conversion_service import ImageConversionService
+from src.services.file_management_service import FileManagementService
+from src.services.validation_service import ValidationService
+from src.config.base_config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE
 from .ui_variables import UIVariables
 from .ui_config import UI_FONT, EMPTY_IMAGE_PATH
 
