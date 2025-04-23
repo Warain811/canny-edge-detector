@@ -2,10 +2,12 @@
 
 import os
 from typing import List
-from .processing_config import SUPPORTED_FORMATS
 
 class FileManagementService:
     """Service for handling file management operations."""
+
+    # Supported Image Formats
+    SUPPORTED_FORMATS = ('.gif', '.jpg', '.png', '.pcx', '.bmp')
 
     @staticmethod
     def list_image_files(folder_path: str) -> List[str]:
@@ -21,7 +23,7 @@ class FileManagementService:
             return [
                 f for f in os.listdir(folder_path)
                 if os.path.isfile(os.path.join(folder_path, f))
-                and f.lower().endswith(SUPPORTED_FORMATS)
+                and f.lower().endswith(FileManagementService.SUPPORTED_FORMATS)
             ]
         except Exception:
             return []

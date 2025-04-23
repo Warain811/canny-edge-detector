@@ -5,23 +5,15 @@ from .base_config import (
     SRC_DIRECTORY,
     ASSETS_DIRECTORY,
     IMAGES_DIRECTORY,
-    TEMP_DIRECTORY
+    TEMP_DIRECTORY,
+    TEMP_IMAGE_FILE,
+    TRANSFORM_IMAGE_FILE
 )
 from ..presentation.ui.ui_config import (
     UI_THEME,
     UI_FONT,
     WINDOW_SIZE,
     EMPTY_IMAGE_PATH
-)
-from ..services.processing_config import (
-    GAUSSIAN_KERNEL_SIZE,
-    GAUSSIAN_SIGMA,
-    DILATION_KERNEL_SIZE,
-    DEFAULT_MIN_THRESHOLD,
-    DEFAULT_MAX_THRESHOLD,
-    SUPPORTED_FORMATS,
-    TEMP_IMAGE_FILE,
-    TRANSFORM_IMAGE_FILE
 )
 
 __all__ = [
@@ -30,6 +22,8 @@ __all__ = [
     'ASSETS_DIRECTORY',
     'IMAGES_DIRECTORY',
     'TEMP_DIRECTORY',
+    'TEMP_IMAGE_FILE',
+    'TRANSFORM_IMAGE_FILE',
     'UI_THEME',
     'UI_FONT',
     'WINDOW_SIZE',
@@ -38,8 +32,5 @@ __all__ = [
     'GAUSSIAN_SIGMA',
     'DILATION_KERNEL_SIZE',
     'DEFAULT_MIN_THRESHOLD',
-    'DEFAULT_MAX_THRESHOLD',
-    'SUPPORTED_FORMATS',
-    'TEMP_IMAGE_FILE',
-    'TRANSFORM_IMAGE_FILE'
+    'DEFAULT_MAX_THRESHOLD'
 ]

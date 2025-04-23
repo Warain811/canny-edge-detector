@@ -2,7 +2,7 @@
 
 import cv2
 import numpy as np
-from .processing_config import (
+from ..config.processing_config import (
     GAUSSIAN_KERNEL_SIZE,
     GAUSSIAN_SIGMA,
     DILATION_KERNEL_SIZE

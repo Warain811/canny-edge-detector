@@ -1,6 +1,5 @@
 """Module containing UI layout and window creation logic."""
 
-import os
 import PySimpleGUI as sg
 
 from .ui_config import (
@@ -9,7 +8,7 @@ from .ui_config import (
     WINDOW_SIZE,
     EMPTY_IMAGE_PATH
 )
-from ...services.processing_config import (
+from ...config.processing_config import (
     DEFAULT_MIN_THRESHOLD,
     DEFAULT_MAX_THRESHOLD
 )
