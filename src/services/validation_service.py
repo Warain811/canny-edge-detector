@@ -2,7 +2,6 @@
 
 import PySimpleGUI as sg
 from ..presentation.ui.ui_config import UI_FONT
-from ..utils.logger import logger
 
 class ValidationService:
     """Service for handling input validation and error messages."""
@@ -66,7 +65,6 @@ class ValidationService:
             message: The error message to display
             severity: The severity level of the error ("Error" or "Warning")
         """
-        logger.warning(message) if severity == "Warning" else logger.error(message)
         sg.Popup(
             message,
             font=UI_FONT,

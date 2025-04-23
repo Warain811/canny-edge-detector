@@ -2,7 +2,6 @@
 
 from ..models.image_model import ImageModel
 from ..models.image_transformation import ImageTransformation
-from ..logger import logger
 
 class ResultsFormatterService:
     """Service for formatting display results consistently."""

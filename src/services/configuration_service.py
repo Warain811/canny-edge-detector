@@ -2,7 +2,6 @@
 
 import os
 from typing import Tuple
-from ..utils.logger import logger
 
 class ConfigurationError(Exception):
     """Exception raised for configuration validation errors."""
@@ -28,14 +27,12 @@ class ConfigurationService:
         try:
             if not os.path.exists(path) and create:
                 os.makedirs(path)
-                logger.info(f"Created directory: {path}")
             elif not os.path.exists(path):
                 raise ConfigurationError(f"Directory does not exist: {path}")
             elif not os.path.isdir(path):
                 raise ConfigurationError(f"Path is not a directory: {path}")
             return path
         except Exception as e:
-            logger.error(f"Error validating directory {path}: {str(e)}")
             raise ConfigurationError(f"Error validating directory {path}: {str(e)}")
 
     @staticmethod

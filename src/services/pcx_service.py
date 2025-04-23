@@ -2,7 +2,6 @@
 
 import io
 from PIL import Image
-from ..utils.logger import logger
 
 class PCXFormatError(Exception):
     """Exception raised for errors in PCX file format."""
@@ -26,8 +25,6 @@ class PCXService:
         Raises:
             PCXFormatError: If the file is invalid
         """
-        logger.info(f"Processing PCX file: {file_path}")
-        
         try:
             # Get dimensions from Pillow (but don't trust its pixel data)
             with Image.open(file_path) as pil_img:
@@ -77,11 +74,9 @@ class PCXService:
                 img.putpalette([c for rgb in color_palette for c in rgb])
                 img.putdata(decoded_pixels[:expected_pixels])
                 
-                logger.info(f"Created {width}x{height} image with custom decoding")
                 rgb_img = img.convert('RGB')
                 
                 return (rgb_img, color_palette) if extract_palette else rgb_img
                 
         except Exception as e:
-            logger.error(f"PCX processing failed: {str(e)}")
             raise PCXFormatError(f"Invalid PCX file: {str(e)}")

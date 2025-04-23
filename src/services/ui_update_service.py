@@ -4,7 +4,6 @@ import io
 from PIL import Image, ImageTk
 from ..presentation.ui.ui_variables import UIVariables
 from .results_formatter_service import ResultsFormatterService
-from ..utils.logger import logger
 
 class UIUpdateService:
     """Service for handling UI update operations."""
@@ -47,7 +46,6 @@ class UIUpdateService:
             is_main: Whether to show in main viewer (True) or transformation area (False)
         """
         try:
-            logger.debug(f"Displaying image: {file_path}")
             image = Image.open(file_path)
             
             if is_main:
@@ -58,8 +56,7 @@ class UIUpdateService:
                 self.window["-IMAGE-"].update(filename=file_path)
                 
         except Exception as e:
-            logger.error(self._formatter.format_error_message(e))
-            raise
+            pass
 
     def show_transformation(self, transform_name: str, transform_image: str, transformation_type: str):
         """Display a transformation step in the UI.
@@ -70,7 +67,6 @@ class UIUpdateService:
             transformation_type: Type of transformation being displayed
         """
         try:
-            logger.debug(f"Showing transformation: {transform_name}")
             image = Image.open(transform_image)
             photo = ImageTk.PhotoImage(image)
             self._photo_images[transform_image] = photo  # Keep reference
@@ -79,13 +75,11 @@ class UIUpdateService:
             self.window[transform_name].update(description)
             self.window[transform_image].update(data=photo)
             
-        except Exception as e:
-            logger.error(self._formatter.format_error_message(e))
-            raise
+        except Exception:
+            pass
 
     def clear_transformations(self):
         """Clear all transformation displays."""
-        logger.debug("Clearing transformation displays")
         self._photo_images.clear()  # Clear photo references
         for key in [
             self.ui_vars.first_transformation,
@@ -108,6 +102,5 @@ class UIUpdateService:
 
     def reset_state(self):
         """Reset all UI elements to their initial state."""
-        logger.info("Resetting UI state")
         self.clear_transformations()
         self.window["-FILE LIST-"].update('')

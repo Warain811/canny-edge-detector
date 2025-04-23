@@ -14,7 +14,6 @@ from ...services.validation_service import ValidationService
 from ...services.processing_config import TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE
 from .ui_variables import UIVariables
 from .ui_config import UI_FONT, EMPTY_IMAGE_PATH
-from ...utils.logger import logger
 
 class EventController:
     """Handles all UI events and their associated logic."""
@@ -109,8 +108,8 @@ class EventController:
             self.window["-num_of_objects-"].update(
                 f"Total number of objects detected in selected image: {self.image_processor.current_objects}"
             )
-        except Exception as e:
-            logger.error(f"Error handling file selection: {str(e)}")
+        except Exception:
+            pass
 
     def _process_image(self, filepath, min_val, max_val):
         """Process a single image through the edge detection pipeline."""
@@ -162,41 +161,34 @@ class EventController:
     def _show_transformation(self, transform_name, transform_image, description):
         """Display a transformation step in the UI."""
         try:
-            logger.debug(f"Showing transformation: {transform_name}")
             self.image_converter.resize_image(TRANSFORM_IMAGE_FILE, TRANSFORM_IMAGE_FILE, 320, 240)
             image = Image.open(TRANSFORM_IMAGE_FILE)
             self.window[transform_name].update(description)
             self.window[transform_image].update(data=ImageTk.PhotoImage(image))
-        except Exception as e:
-            logger.error(f"Error showing transformation {transform_name}: {str(e)}")
-            raise
+        except Exception:
+            pass
 
     def _show_main_image(self, file_path):
         """Display the main image in the UI."""
         try:
-            logger.debug(f"Displaying image: {file_path}")
             self.image_converter.resize_image(file_path, file_path, 320, 240)
             image = Image.open(file_path)
             bio = io.BytesIO()
             image.save(bio, "PNG")
             self.window["-IMAGE-"].update(data=bio.getvalue())
-        except Exception as e:
-            logger.error(f"Error displaying image {file_path}: {str(e)}")
-            raise
+        except Exception:
+            pass
 
     def _clear_image_viewer(self):
         """Clear the image displayed in the viewer."""
         try:
-            logger.debug("Clearing main image viewer")
             self.image_converter.resize_image(EMPTY_IMAGE_PATH, TEMP_IMAGE_FILE, 320, 240)
             self._show_main_image(TEMP_IMAGE_FILE)
-        except Exception as e:
-            logger.error(f"Error clearing image viewer: {str(e)}")
-            raise
+        except Exception:
+            pass
 
     def _clear_transformations(self):
         """Clear all transformation displays."""
-        logger.debug("Clearing transformation displays")
         for key in [
             self.ui_vars.first_transformation,
             self.ui_vars.second_transformation,
@@ -210,12 +202,10 @@ class EventController:
 
     def _reset_state(self):
         """Reset the controller state."""
-        logger.info("Resetting controller state")
         self._clear_transformations()
         self.window["-FILE LIST-"].update('')
         self.total_objects = 0
 
     def _cleanup_temp_files(self):
         """Remove temporary image files."""
-        logger.debug("Cleaning up temporary files")
         self.file_manager.cleanup_files([TEMP_IMAGE_FILE, TRANSFORM_IMAGE_FILE])

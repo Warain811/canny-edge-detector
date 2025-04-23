@@ -9,7 +9,6 @@ from .processing_config import (
 )
 from ..models.image_model import ImageModel
 from ..models.image_transformation import ImageTransformation
-from ..utils.logger import logger
 
 class ImageProcessingService:
     """Service for handling image processing operations."""
@@ -89,10 +88,7 @@ class ImageProcessingService:
             self._detect_edges()
             self._detect_contours()
             
-            logger.info(f"Detected {self.current_objects} objects in image")
-            
         except Exception as e:
-            logger.error(f"Error processing image {filepath}: {str(e)}")
             raise
 
     def _preprocess_image(self):
@@ -117,19 +113,12 @@ class ImageProcessingService:
                 self._current_transformation.gaussian_kernel_size, 
                 self._current_transformation.gaussian_sigma
             )
-            logger.debug("Image preprocessing completed")
         except Exception as e:
-            logger.error(f"Error in preprocessing: {str(e)}")
             raise
 
     def _detect_edges(self):
         """Apply Canny edge detection algorithm."""
         try:
-            logger.debug(
-                f"Applying Canny with thresholds: {self._current_transformation.min_threshold}, "
-                f"{self._current_transformation.max_threshold}"
-            )
-            
             self._current_transformation.result.edges = cv2.Canny(
                 self._current_transformation.result.blurred,
                 self._current_transformation.min_threshold,
@@ -143,9 +132,7 @@ class ImageProcessingService:
                 self._current_transformation.dilation_kernel_size, 
                 0
             )
-            logger.debug("Edge detection completed")
         except Exception as e:
-            logger.error(f"Error in edge detection: {str(e)}")
             raise
 
     def _detect_contours(self):
@@ -158,18 +145,14 @@ class ImageProcessingService:
             )
             self._current_transformation.result.contours = contours
             self._current_transformation.result.object_count = len(contours)
-            logger.debug(f"Found {self.current_objects} contours")
         except Exception as e:
-            logger.error(f"Error finding contours: {str(e)}")
             raise
 
     def update_total_objects(self):
         """Update the total count of objects across all processed images."""
         if self._current_transformation and self._current_transformation.result:
             self._total_objects += self._current_transformation.result.object_count
-            logger.info(f"Total object count updated to: {self._total_objects}")
 
     def reset_total_objects(self):
         """Reset the total object count when loading a new folder."""
         self._total_objects = 0
-        logger.info("Total object count reset")

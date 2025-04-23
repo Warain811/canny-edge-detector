@@ -3,7 +3,6 @@
 import os
 from typing import List
 from .processing_config import SUPPORTED_FORMATS
-from ..utils.logger import logger
 
 class FileManagementService:
     """Service for handling file management operations."""
@@ -24,8 +23,7 @@ class FileManagementService:
                 if os.path.isfile(os.path.join(folder_path, f))
                 and f.lower().endswith(SUPPORTED_FORMATS)
             ]
-        except Exception as e:
-            logger.error(f"Error listing files in {folder_path}: {str(e)}")
+        except Exception:
             return []
 
     @staticmethod
@@ -39,9 +37,8 @@ class FileManagementService:
             if os.path.exists(file_path):
                 try:
                     os.remove(file_path)
-                    logger.debug(f"Removed file: {file_path}")
-                except Exception as e:
-                    logger.warning(f"Failed to remove file {file_path}: {str(e)}")
+                except Exception:
+                    pass
 
     @staticmethod
     def ensure_file_exists(file_path: str) -> bool:
@@ -53,7 +50,4 @@ class FileManagementService:
         Returns:
             True if the file exists, False otherwise
         """
-        exists = os.path.exists(file_path)
-        if not exists:
-            logger.error(f"File not found: {file_path}")
-        return exists
+        return os.path.exists(file_path)

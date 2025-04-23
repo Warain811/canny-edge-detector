@@ -2,8 +2,7 @@
 
 import os
 from PIL import Image, UnidentifiedImageError
-from ..utils.pcx_service import PCXService
-from ..utils.logger import logger
+from .pcx_service import PCXService
 
 class ImageConversionService:
     """Service for handling image format conversion operations."""
@@ -22,10 +21,8 @@ class ImageConversionService:
             IOError: If there's an error reading or writing the image
         """
         if not os.path.exists(image_path):
-            logger.error(f"Image file not found: {image_path}")
             raise FileNotFoundError(f"Image file not found: {image_path}")
 
-        logger.info(f"Converting image to PNG: {image_path}")
         file_name = os.path.basename(image_path)
         
         try:
@@ -35,9 +32,7 @@ class ImageConversionService:
                 ImageConversionService._convert_standard_image(image_path, output_path)
             else:
                 ImageConversionService._convert_pcx(image_path, output_path)
-            logger.debug(f"Successfully converted {image_path} to PNG")
         except Exception as e:
-            logger.error(f"Error converting image {image_path}: {str(e)}")
             raise
 
     @staticmethod
@@ -50,7 +45,6 @@ class ImageConversionService:
             background.paste(png, mask=png.split()[3])
             background.save(output_path, 'PNG')
         except Exception as e:
-            logger.error(f"Error converting PNG {image_path}: {str(e)}")
             raise
 
     @staticmethod
@@ -61,10 +55,8 @@ class ImageConversionService:
             rgb_image = image.convert("RGB")
             rgb_image.save(output_path)
         except UnidentifiedImageError:
-            logger.error(f"Unsupported image format: {image_path}")
             raise
         except Exception as e:
-            logger.error(f"Error converting standard image {image_path}: {str(e)}")
             raise
 
     @staticmethod
@@ -74,7 +66,6 @@ class ImageConversionService:
             image_data = PCXService.convert_pcx(image_path)
             image_data.save(output_path)
         except Exception as e:
-            logger.error(f"Error converting PCX {image_path}: {str(e)}")
             raise
 
     @staticmethod
@@ -90,7 +81,6 @@ class ImageConversionService:
             blank = Image.new("RGBA", (width, height), (0, 0, 0, 0))
             blank.save(output_path, "PNG")
         except Exception as e:
-            logger.error(f"Error creating blank image: {str(e)}")
             raise
 
     @staticmethod
@@ -121,11 +111,7 @@ class ImageConversionService:
 
             # 4. Save the final image
             centered_image.save(output_path, "PNG")
-
-            logger.info(f"✅ Resized image saved at {output_path}")
-
         except Exception as e:
-            logger.error(f"Error resizing image from {image_path}: {str(e)}")
             raise
     
     @staticmethod
