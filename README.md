@@ -23,7 +23,6 @@ This project showcases the implementation of the Canny Edge Detection Algorithm 
   - Dilated edges
   - Contour detection
 - Batch processing of multiple images
-- Support for transparent PNG handling
 
 ## Requirements
 - Python 3.x
